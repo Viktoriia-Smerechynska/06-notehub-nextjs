@@ -5,13 +5,10 @@ import { useState } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
 
-// 👑 1. Використовуємо стилі домашньої сторінки або підключіть ваші
 import css from '../Home.module.css';
 
-// 👑 2. Оновлено функцію запиту на правильний getNotes з нашого api.ts
 import { getNotes } from '@/lib/api';
 
-// 👑 3. Переписали всі імпорти на стабільні глобальні аліаси через @/
 import NoteList from '@/components/NoteList/NoteList';
 import Pagination from '@/components/Pagination/Pagination';
 import Modal from '@/components/Modal/Modal';
@@ -38,7 +35,7 @@ export default function NotesClient() {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['notes', page, searchQuery],
-    // 👑 Передаємо змінні стейту безпосередньо всередину нашої оновленої функції:
+
     queryFn: () => getNotes(page, searchQuery),
     placeholderData: keepPreviousData,
   });
@@ -50,7 +47,6 @@ export default function NotesClient() {
 
   const notes = data?.notes || [];
 
-  // 👑 5. Вираховуємо кількість сторінок (якщо бекенд віддає total замість totalPages)
   const limit = 10;
   const totalPages = data?.total ? Math.ceil(data.total / limit) : 0;
 
