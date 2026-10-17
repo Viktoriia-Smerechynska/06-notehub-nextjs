@@ -2,6 +2,8 @@
 
 import axios from 'axios';
 
+const KEY = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
+
 export type Note = {
   id: string;
   title: string;
@@ -17,17 +19,24 @@ export type NoteListResponse = {
   total: number;
 };
 
-axios.defaults.baseURL = 'https://next-v1-notes-api.goit.study';
+export const api = axios.create({
+  baseURL: 'https://notehub-public.goit.study/api',
+  headers: {
+    Authorization: KEY ? `Bearer ${KEY}` : '',
+  },
+});
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const getNotes = async () => {
   await delay(2000);
-  const res = await axios.get<NoteListResponse>('/notes');
+  const res = await api.get<NoteListResponse>('/notes');
   return res.data;
 };
 
 export const getSingleNote = async (id: string) => {
-  const res = await axios.get<Note>(`/notes/${id}`);
+  const res = await api.get<Note>(`/notes/${id}`);
   return res.data;
 };
+
+export const fetchNoteById = getSingleNote;

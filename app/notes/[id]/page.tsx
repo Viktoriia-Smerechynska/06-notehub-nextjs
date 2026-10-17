@@ -1,20 +1,20 @@
 // app/notes/[id]/page.tsx
-
-import { QueryClient, HydrationBoundary, dehydrate } from '@tanstack/react-query';
-import { getSingleNote } from '@/src/lib/api';
+import { QueryClient, dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetails.client';
 
-type Props = {
+interface PageProps {
   params: Promise<{ id: string }>;
-};
+}
 
-const NoteDetails = async ({ params }: Props) => {
-  const { id } = await params;
+export default async function NoteDetailsPage({ params }: PageProps) {
+  const { id } = await params; // 👑 Отримуємо асинхронний id з параметрів маршруту
   const queryClient = new QueryClient();
 
+  // Попереднє завантаження однієї нотатки на сервері
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
-    queryFn: () => getSingleNote(id),
+    queryFn: () => fetchNoteById(id),
   });
 
   return (
@@ -22,6 +22,4 @@ const NoteDetails = async ({ params }: Props) => {
       <NoteDetailsClient />
     </HydrationBoundary>
   );
-};
-
-export default NoteDetails;
+}
