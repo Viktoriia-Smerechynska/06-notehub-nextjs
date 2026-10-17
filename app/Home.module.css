@@ -1,7 +1,7 @@
 .pageWrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Займає 100% висоти екрана */
+  min-height: 100vh;
 }
 
 .main {

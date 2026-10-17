@@ -16,10 +16,8 @@ export default function Pagination({ pageCount, forcePage, onPageChange }: Pagin
       pageCount={pageCount}
       forcePage={forcePage}
       onPageChange={onPageChange}
-      // Текст для стрілочок
       previousLabel="←"
       nextLabel="→"
-      // Прив'язка CSS-класів для стилізації (відповідає дизайну з фото)
       containerClassName={css.paginationContainer}
       pageClassName={css.pageItem}
       pageLinkClassName={css.pageLink}
@@ -29,7 +27,6 @@ export default function Pagination({ pageCount, forcePage, onPageChange }: Pagin
       nextLinkClassName={css.pageLink}
       activeClassName={css.activePage}
       disabledClassName={css.disabledPage}
-      // Налаштування кількості видимих елементів навколо поточної сторінки
       marginPagesDisplayed={1}
       pageRangeDisplayed={3}
     />

@@ -21,8 +21,6 @@ body {
 }
 
 body {
-  /* 🌟 ЗМІНЕНО: 100vh замість 100%, щоб body завжди заповнював весь екран по вертикалі */
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   color: var(--foreground);
@@ -32,7 +30,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 🌟 ДОДАНО: тег main розтягується і виштовхує <Footer /> до самого низу */
 main {
   flex: 1;
   display: flex;
