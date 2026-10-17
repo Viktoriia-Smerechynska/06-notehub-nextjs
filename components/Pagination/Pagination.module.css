@@ -1,49 +1,61 @@
-.pagination {
+/* src/components/Pagination/Pagination.module.css */
+
+/* Головний контейнер списку <ul> */
+.paginationContainer {
   display: flex;
-  justify-content: center;
-  gap: 4px;
-  margin: 16px 0;
   list-style: none;
   padding: 0;
   margin: 0;
+  gap: 6px; /* Невеликий відступ між кнопками */
+  align-items: center;
 }
 
-.pagination li {
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  cursor: pointer;
-  min-width: 36px;
-  height: 36px;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+/* Елементи списку <li> */
+.pageItem {
+  display: block;
 }
 
-.pagination li a {
+/* Самі кнопки-посилання <a> всередині <li> */
+.pageLink {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  text-decoration: none;
-  color: #0d6efd;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 6px;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7; /* Тонка світла рамка */
+  border-radius: 6px; /* Закруглені кути кнопок */
+  color: #71717a; /* Колір цифр */
   font-size: 14px;
-}
-
-.pagination li:hover {
-  background-color: #e9ecef;
-}
-
-.pagination li.active:hover {
-  background-color: #0d6efd;
-}
-
-.active {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-
-.active a {
-  color: #fff !important;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  user-select: none;
+}
+
+/* Ефект наведення мишки */
+.pageLink:hover {
+  background-color: #f4f4f5;
+  border-color: #d4d4d8;
+  color: #18181b;
+}
+
+/* Активна сторінка (клас додається автоматично до потрібного <li>) */
+.activePage .pageLink {
+  background-color: #0066ff; /* Яскраво-синій фон */
+  border-color: #0066ff;
+  color: #ffffff; /* Білий колір цифри */
+}
+
+.activePage .pageLink:hover {
+  background-color: #0052cc;
+}
+
+/* Вимкнені кнопки стрілочок назад/вперед */
+.disabledPage .pageLink {
+  color: #e4e4e7;
+  cursor: not-allowed;
+  background-color: #fafafa;
+  border-color: #e4e4e7;
 }

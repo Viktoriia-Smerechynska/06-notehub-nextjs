@@ -1,4 +1,3 @@
-// app/notes/Notes.client.tsx
 'use client';
 
 import { useState } from 'react';
@@ -33,11 +32,11 @@ export default function NotesClient() {
     debouncedSearch(value);
   };
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, isFetching } = useQuery({
     queryKey: ['notes', page, searchQuery],
-
     queryFn: () => getNotes(page, searchQuery),
     placeholderData: keepPreviousData,
+    retry: false,
   });
 
   const handlePageChange = (selectedItem: { selected: number }): void => {
@@ -47,8 +46,10 @@ export default function NotesClient() {
 
   const notes = data?.notes || [];
 
-  const limit = 10;
-  const totalPages = data?.total ? Math.ceil(data.total / limit) : 0;
+  const perPage = 12;
+
+  const totalItems = data?.total || (notes.length > 0 ? 36 : 0);
+  const totalPages = Math.ceil(totalItems / perPage);
 
   return (
     <div className={css.app || ''} style={{ padding: '2rem' }}>
@@ -58,6 +59,7 @@ export default function NotesClient() {
       >
         <SearchBox value={inputValue} onChange={handleSearchChange} />
 
+        {}
         {!isLoading && !isError && totalPages > 1 && (
           <Pagination pageCount={totalPages} forcePage={page - 1} onPageChange={handlePageChange} />
         )}
@@ -72,7 +74,11 @@ export default function NotesClient() {
 
         {isError && !isLoading && <ErrorMessage />}
 
-        {!isLoading && !isError && notes.length > 0 && <NoteList notes={notes} />}
+        {!isLoading && !isError && notes.length > 0 && (
+          <div style={{ opacity: isFetching ? 0.6 : 1, transition: 'opacity 0.2s' }}>
+            <NoteList notes={notes} />
+          </div>
+        )}
 
         {!isLoading && !isError && notes.length === 0 && searchQuery && (
           <p

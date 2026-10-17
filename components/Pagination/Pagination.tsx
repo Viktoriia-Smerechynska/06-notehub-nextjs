@@ -1,33 +1,37 @@
-// components/Pagination/Pagination.tsx
-'use client'; 
+// src/components/Pagination/Pagination.tsx
+'use client';
 
 import ReactPaginate from 'react-paginate';
 import css from './Pagination.module.css';
 
-interface PaginationProps {
+type PaginationProps = {
   pageCount: number;
   forcePage: number;
   onPageChange: (selectedItem: { selected: number }) => void;
-}
-
-const Pagination = ({ pageCount, forcePage, onPageChange }: PaginationProps) => {
-  
-  if (pageCount <= 1) return null;
-
-  return (
-    <ReactPaginate
-      previousLabel="&larr;"
-      nextLabel="&rarr;"
-      breakLabel="..."
-      pageCount={pageCount}
-      marginPagesDisplayed={1}
-      pageRangeDisplayed={3}
-      onPageChange={onPageChange}
-      containerClassName={css.pagination}
-      activeClassName={css.active}
-      forcePage={forcePage}
-    />
-  );
 };
 
-export default Pagination;
+export default function Pagination({ pageCount, forcePage, onPageChange }: PaginationProps) {
+  return (
+    <ReactPaginate
+      pageCount={pageCount}
+      forcePage={forcePage}
+      onPageChange={onPageChange}
+      // Текст для стрілочок
+      previousLabel="←"
+      nextLabel="→"
+      // Прив'язка CSS-класів для стилізації (відповідає дизайну з фото)
+      containerClassName={css.paginationContainer}
+      pageClassName={css.pageItem}
+      pageLinkClassName={css.pageLink}
+      previousClassName={css.pageItem}
+      previousLinkClassName={css.pageLink}
+      nextClassName={css.pageItem}
+      nextLinkClassName={css.pageLink}
+      activeClassName={css.activePage}
+      disabledClassName={css.disabledPage}
+      // Налаштування кількості видимих елементів навколо поточної сторінки
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={3}
+    />
+  );
+}

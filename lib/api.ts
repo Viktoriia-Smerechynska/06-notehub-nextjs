@@ -19,24 +19,29 @@ export type NoteListResponse = {
   total: number;
 };
 
+const headers: Record<string, string> = {};
+
+if (KEY) {
+  const cleanKey = KEY.replace(/['"]/g, '').trim();
+  headers['Authorization'] = `Bearer ${cleanKey}`;
+}
+
 export const api = axios.create({
   baseURL: 'https://notehub-public.goit.study/api',
-  headers: {
-    Authorization: KEY ? `Bearer ${KEY}` : '',
-  },
+  headers,
 });
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const getNotes = async (page: number = 1, searchQuery: string = '') => {
-  await delay(2000);
-  const res = await api.get<NoteListResponse>('/notes', {
-    params: {
-      page,
-      limit: 10,
-      search: searchQuery || undefined,
-    },
-  });
+  const params: Record<string, any> = {
+    page: Number(page),
+    perPage: 12,
+  };
+
+  if (searchQuery && searchQuery.trim() !== '') {
+    params.search = searchQuery.trim();
+  }
+
+  const res = await api.get<NoteListResponse>('/notes', { params });
   return res.data;
 };
 
