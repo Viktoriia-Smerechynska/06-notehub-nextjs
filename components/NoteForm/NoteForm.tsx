@@ -3,9 +3,9 @@
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '@/lib/api'; // 👑 1. Оновлено імпорт на наш новий axios-інстанс
+import { api } from '@/lib/api'; //
 import css from './NoteForm.module.css';
-import type { NoteTag } from '@/types/note'; // 👑 2. Оновлено шлях до ваших глобальних типів
+import type { NoteTag } from '@/types/note';
 
 interface FormValues {
   title: string;
@@ -31,7 +31,6 @@ const NoteSchema = Yup.object().shape({
 const NoteForm = ({ onCancel }: NoteFormProps) => {
   const queryClient = useQueryClient();
 
-  // 👑 3. Переписали мутацію створення нотатки під наш новий api.ts
   const createNoteMutation = useMutation({
     mutationFn: async (newNote: FormValues) => {
       const res = await api.post('/notes', newNote);
@@ -53,7 +52,6 @@ const NoteForm = ({ onCancel }: NoteFormProps) => {
     <Formik
       initialValues={initialValues}
       validationSchema={NoteSchema}
-      // 👑 4. Додали суворі типи для аргументів функції onSubmit розробником
       onSubmit={(values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
         createNoteMutation.mutate(values, {
           onSettled: () => setSubmitting(false),

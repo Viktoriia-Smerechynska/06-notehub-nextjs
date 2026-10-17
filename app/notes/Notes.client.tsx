@@ -1,18 +1,26 @@
+// app/notes/Notes.client.tsx
+'use client';
+
 import { useState } from 'react';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
-
 import { useDebouncedCallback } from 'use-debounce';
-import css from './App.module.css';
-import { fetchNotes } from '../../services/noteService';
-import NoteList from '../NoteList/NoteList';
-import Pagination from '../Pagination/Pagination';
-import Modal from '../Modal/Modal';
-import NoteForm from '../NoteForm/NoteForm';
-import SearchBox from '../SearchBox/SearchBox';
-import Loader from '../Loader/Loader';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-const App = () => {
+// 👑 1. Використовуємо стилі домашньої сторінки або підключіть ваші
+import css from '../Home.module.css';
+
+// 👑 2. Оновлено функцію запиту на правильний getNotes з нашого api.ts
+import { getNotes } from '@/lib/api';
+
+// 👑 3. Переписали всі імпорти на стабільні глобальні аліаси через @/
+import NoteList from '@/components/NoteList/NoteList';
+import Pagination from '@/components/Pagination/Pagination';
+import Modal from '@/components/Modal/Modal';
+import NoteForm from '@/components/NoteForm/NoteForm';
+import SearchBox from '@/components/SearchBox/SearchBox';
+import Loader from '@/components/Loader/Loader';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+
+export default function NotesClient() {
   const [page, setPage] = useState<number>(1);
   const [inputValue, setInputValue] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -30,7 +38,8 @@ const App = () => {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['notes', page, searchQuery],
-    queryFn: () => fetchNotes(page, searchQuery),
+    // 👑 Передаємо змінні стейту безпосередньо всередину нашої оновленої функції:
+    queryFn: () => getNotes(page, searchQuery),
     placeholderData: keepPreviousData,
   });
 
@@ -40,18 +49,24 @@ const App = () => {
   };
 
   const notes = data?.notes || [];
-  const totalPages = data?.totalPages || 0;
+
+  // 👑 5. Вираховуємо кількість сторінок (якщо бекенд віддає total замість totalPages)
+  const limit = 10;
+  const totalPages = data?.total ? Math.ceil(data.total / limit) : 0;
 
   return (
-    <div className={css.app}>
-      <header className={css.toolbar}>
+    <div className={css.app || ''} style={{ padding: '2rem' }}>
+      <header
+        className={css.toolbar}
+        style={{ display: 'flex', gap: '20px', marginBottom: '20px', alignItems: 'center' }}
+      >
         <SearchBox value={inputValue} onChange={handleSearchChange} />
 
         {!isLoading && !isError && totalPages > 1 && (
           <Pagination pageCount={totalPages} forcePage={page - 1} onPageChange={handlePageChange} />
         )}
 
-        <button className={css.button} onClick={() => setIsModalOpen(true)}>
+        <button className={css.button || ''} onClick={() => setIsModalOpen(true)}>
           Create note +
         </button>
       </header>
@@ -61,7 +76,6 @@ const App = () => {
 
         {isError && !isLoading && <ErrorMessage />}
 
-        {}
         {!isLoading && !isError && notes.length > 0 && <NoteList notes={notes} />}
 
         {!isLoading && !isError && notes.length === 0 && searchQuery && (
@@ -85,6 +99,4 @@ const App = () => {
       )}
     </div>
   );
-};
-
-export default App;
+}

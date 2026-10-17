@@ -1,5 +1,5 @@
 // components/Pagination/Pagination.tsx
-'use client'; // 👑 1. Обов'язково додаємо директиву клієнтського компонента
+'use client'; 
 
 import ReactPaginate from 'react-paginate';
 import css from './Pagination.module.css';
@@ -11,7 +11,7 @@ interface PaginationProps {
 }
 
 const Pagination = ({ pageCount, forcePage, onPageChange }: PaginationProps) => {
-  // 👑 2. Якщо сторінок 1 або менше, пагінацію краще взагалі не рендерити
+  
   if (pageCount <= 1) return null;
 
   return (

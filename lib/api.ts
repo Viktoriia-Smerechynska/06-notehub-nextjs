@@ -28,9 +28,15 @@ export const api = axios.create({
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const getNotes = async () => {
+export const getNotes = async (page: number = 1, searchQuery: string = '') => {
   await delay(2000);
-  const res = await api.get<NoteListResponse>('/notes');
+  const res = await api.get<NoteListResponse>('/notes', {
+    params: {
+      page,
+      limit: 10,
+      search: searchQuery || undefined,
+    },
+  });
   return res.data;
 };
 
