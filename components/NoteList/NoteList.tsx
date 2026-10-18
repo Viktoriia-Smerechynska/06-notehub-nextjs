@@ -1,7 +1,9 @@
 // components/NoteList/NoteList.tsx
+'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api, Note } from '@/lib/api';
+import { api } from '@/lib/api';
+import { Note } from '@/types/note';
 import Link from 'next/link';
 import css from './NoteList.module.css';
 
@@ -25,24 +27,25 @@ const NoteList = ({ notes }: NoteListProps) => {
   return (
     <ul className={css.list}>
       {notes.map(note => (
-        <li key={note.id} className={css.listItem || css.item}>
+        <li key={note.id} className={css.listItem}>
           <h2 className={css.title}>{note.title}</h2>
 
           <p className={css.content}>{note.content}</p>
 
           <div className={css.footer}>
             {}
-            <span className={css.tag}>{(note as any).tag || 'General'}</span>
+            <span className={css.tag}>{note.tag}</span>
 
             <div
               className={css.actions}
               style={{ display: 'flex', gap: '10px', alignItems: 'center' }}
             >
               {}
-              <Link href={`/notes/${note.id}`} className={css.viewLink || css.button}>
+              <Link href={`/notes/${note.id}`} className={css.buttonDetails}>
                 View details
               </Link>
 
+              {}
               <button
                 className={css.button}
                 onClick={() => deleteNoteMutation.mutate(note.id)}

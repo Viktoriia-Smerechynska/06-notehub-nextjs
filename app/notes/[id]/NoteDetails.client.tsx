@@ -4,7 +4,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { fetchNoteById } from '@/lib/api';
-import css from './NoteDetails.module.css'; // Імпорт модульних стилів
+import css from './NoteDetails.module.css';
 
 export default function NoteDetailsClient() {
   const params = useParams();
@@ -18,16 +18,14 @@ export default function NoteDetailsClient() {
   } = useQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
-    refetchOnMount: false, // 👑 Запобігаємо повторному запиту після гідратації за ТЗ
+    refetchOnMount: false,
     enabled: !!id,
   });
 
-  // 1. Опрацювання стану завантаження строго за ТЗ
   if (isLoading) {
     return <p>Loading, please wait...</p>;
   }
 
-  // 2. Опрацювання помилки або випадку, коли нотатку не знайдено (строго за ТЗ)
   if (isError || !note) {
     return <p>Something went wrong.</p>;
   }
@@ -37,14 +35,14 @@ export default function NoteDetailsClient() {
       <div className={css.container}>
         <div className={css.item}>
           <div className={css.header}>
-            {/* 👑 Виводимо динамічний заголовок нотатки */}
+            {}
             <h2>{note.title}</h2>
           </div>
-          {/* Виводимо тег/категорію (використовуємо fall-back, якщо поле на бекенді відсутнє) */}
-          <p className={css.tag}>{(note as any).tag || 'General'}</p>
-          {/* 👑 Виводимо динамічний контент нотатки */}
+          {}
+          <p className={css.tag}>{note.tag || 'General'}</p>
+          {}
           <p className={css.content}>{note.content}</p>
-          {/* 👑 Виводимо дату створення у красивому форматі */}
+          {}
           <p className={css.date}>{new Date(note.createdAt).toLocaleDateString()}</p>
         </div>
       </div>

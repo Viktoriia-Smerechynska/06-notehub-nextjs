@@ -1,14 +1,14 @@
-// src/components/Pagination/Pagination.tsx
+// components/Pagination/Pagination.tsx
 'use client';
 
 import ReactPaginate from 'react-paginate';
 import css from './Pagination.module.css';
 
-type PaginationProps = {
+interface PaginationProps {
   pageCount: number;
   forcePage: number;
   onPageChange: (selectedItem: { selected: number }) => void;
-};
+}
 
 export default function Pagination({ pageCount, forcePage, onPageChange }: PaginationProps) {
   return (
