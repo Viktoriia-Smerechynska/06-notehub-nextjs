@@ -5,7 +5,7 @@ import { Note } from '@/types/note';
 
 export type NoteListResponse = {
   notes: Note[];
-  totalPage: number;
+  totalPages: number;
 };
 const KEY = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 const headers: Record<string, string> = {};

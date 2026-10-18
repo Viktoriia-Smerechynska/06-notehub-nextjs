@@ -46,10 +46,7 @@ export default function NotesClient() {
 
   const notes = data?.notes || [];
 
-  const perPage = 12;
-
-  const totalItems = data?.total || (notes.length > 0 ? 36 : 0);
-  const totalPages = Math.ceil(totalItems / perPage);
+  const totalPages = data?.totalPages || 0;
 
   return (
     <div className={css.app || ''} style={{ padding: '2rem' }}>
