@@ -40,3 +40,13 @@ export const getSingleNote = async (id: string) => {
 };
 
 export const fetchNoteById = getSingleNote;
+
+export const createNote = async (noteData: { title: string; content: string; tag: string }) => {
+  const res = await api.post<Note>('/notes', noteData);
+  return res.data;
+};
+
+export const deleteNote = async (id: string) => {
+  const res = await api.delete(`/notes/${id}`);
+  return res.data;
+};

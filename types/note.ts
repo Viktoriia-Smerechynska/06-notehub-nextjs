@@ -6,6 +6,5 @@ export interface Note {
   content: string;
   tag: NoteTag;
   createdAt: string;
-  userId: string;
   updatedAt: string;
 }
